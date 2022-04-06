@@ -21,7 +21,11 @@ public class app {
 			running = false;
 			break;
 		case "1":
-			
+			break;
+		case "2":
+			break;
+		case "3":
+			break;
 		default:
 			System.out.println("Invalid input, please try again.");
 			break;
