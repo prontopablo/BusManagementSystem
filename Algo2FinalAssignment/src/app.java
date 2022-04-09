@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class app {
 	//driver code, takes user input and calls other methods.
-	public static void main(String[]args) {
+	public static void main(String[]args) throws IOException {
 		System.out.println("Vancouver Bus Management System");
 
 		boolean running = true;
@@ -26,6 +26,7 @@ public class app {
 		System.out.println("3 to search for trips by time");
 		System.out.println("-------------------------------");
 		
+		Graph VCBusGraph = null;
 		Scanner sc = new Scanner(System.in);
 		String choice = sc.next();
 		switch(choice) {
@@ -35,6 +36,13 @@ public class app {
 			running = false;
 			break;
 		case "1":
+			boolean isChoice1 = true;
+			VCBusGraph = new Graph("stops.txt", "transfers.txt", "stop_times.txt");
+			while(isChoice1) {
+				System.out.println("Enter the first stop's name");
+				String stopName = sc.next() + sc.nextLine();
+				
+			}
 			break;
 		case "2":
 			break;
@@ -136,12 +144,19 @@ class Graph{
 			if(previousID == currentID) {
 				startArrayIndex = stopIDMap.get(startID);
 				endArrayIndex = stopIDMap.get(endID);
-				aList[startArrayIndex].add(new Edge(startArrayIndex,endArrayIndex, 1.0));
+				//add edge to adjacency list
+				aList[startArrayIndex].add(new Edge(startArrayIndex,endArrayIndex,1.0));
 			}
 			startID = endID;
 			previousID = currentID;			
 		}
 		in.close();
 	}
+	public Double cost(String stopName) {
+		return null;
+	}
+	
+	public int stopCount() {return stopCount;}
+	public ArrayList<Edge> edgeBeside(int stop){return aList[stop];}
 }
 
