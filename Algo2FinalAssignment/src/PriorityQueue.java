@@ -9,7 +9,7 @@ public class PriorityQueue {
         for(int i = 0; i<nodeArray.length;i++) {nodeArray[i] = null;}
     }
 	
-	//Check if pq has any elements
+	//Check if PQ has any elements
 	public boolean isEmpty() {return currSize == 0;}
 	
 	//sink helper for PQ
