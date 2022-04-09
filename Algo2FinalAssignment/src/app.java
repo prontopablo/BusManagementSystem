@@ -152,11 +152,9 @@ class Graph{
 		}
 		in.close();
 	}
-	public Double cost(String stopName) {
-		return null;
-	}
-	
 	public int stopCount() {return stopCount;}
 	public ArrayList<Edge> edgeBeside(int stop){return aList[stop];}
+	
+	
 }
 
