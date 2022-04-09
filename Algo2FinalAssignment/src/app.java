@@ -3,10 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
-
-class Graph{
-	
-}
+import java.util.Map;
 
 public class app {
 	public static void main(String[]args) {
@@ -44,4 +41,15 @@ public class app {
 	}
 
 	}
+
+class Graph{
+    int stop;
+	ArrayList<Edge>[] aList; //The graph is created using an adjacency list
+	Map<Integer,Integer> stopIDMap;
+	Map<String,Integer> stopMap;
+	Map<Integer,String> arrayMap;//tracks index array + name of stop
+	//dijkstra dij;
+	
+	public Graph(String transfersTxt, String stopsTxt, String stopTimesTxt) {}
+}
 

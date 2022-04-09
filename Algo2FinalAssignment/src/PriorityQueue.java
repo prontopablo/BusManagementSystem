@@ -48,9 +48,7 @@ public class PriorityQueue {
 		nodeArray[1] = nodeArray[currSize--];
 		nodeArray[(currSize+1)] = null;
 		sink(1);
-		if(nodeArray.length > 4 && (nodeArray.length/4) >= currSize) {
-			//shrink();
-		}
+		if(nodeArray.length > 4 && (nodeArray.length/4) >= currSize) {shrink();}
 		return nextStop;
 	}
 	
@@ -76,9 +74,7 @@ public class PriorityQueue {
 	
 	public void insert(double distance, int stop) {
 		//Check to see if new node will fit
-		if((currSize+1) >= nodeArray.length) {
-			//grow();
-			}
+		if((currSize+1) >= nodeArray.length) {grow();}
 		nodeArray[currSize] = new Node(stop,distance);
 		swim(currSize);
 	}
