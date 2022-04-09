@@ -9,7 +9,7 @@ class TSTNode
     TSTNode left, middle, right;
  
     /** Constructor **/
-    public TSTNode(char data)
+    public TSTNode(char data, Integer value)
     {
         this.data = data;
         this.isEnd = false;
@@ -24,6 +24,7 @@ class TernarySearchTree
 {
     private TSTNode root;
     private ArrayList<String> al;
+    public static ArrayList<Integer> listOfAllNames = new ArrayList<>();
  
     // Constructor
     public TernarySearchTree()
@@ -49,7 +50,7 @@ class TernarySearchTree
     public TSTNode insert(TSTNode r, char[] word, int ptr)
     {
         if (r == null)
-            r = new TSTNode(word[ptr]);
+            r = new TSTNode(word[ptr], ptr);
  
         if (word[ptr] < r.data)
             r.left = insert(r.left, word, ptr);
@@ -116,6 +117,64 @@ class TernarySearchTree
                 return search(r.middle, word, ptr + 1);
         }        
     }
+    protected void put(String key, int value)
+    {
+        if (key.isEmpty())
+        {
+        	//Don't do anything with invalid input.
+            System.out.println("invalid input to TST.put()!");
+            return;
+        }
+        //TST is in upper-case.
+        key = key.toUpperCase();
+        root = put(root, key, value);
+    }
+    protected TSTNode put(TSTNode node, String key, int value)
+    {
+        char c = key.charAt(0);
+        if (key.length() > 1)
+        {
+            if (node == null)
+            {   
+            	//Fully new string, make new intermediate node and continue down.
+                node = new TSTNode(c, null);
+                node.middle = put(node.middle, key.substring(1), value);
+                return node;
+            }
+            else if (c == node.data)
+            {   
+            	//Identical substring, continue down.
+                node.middle = put(node.middle, key.substring(1), value);
+                return node;
+            }
+            else if (c < node.data)
+            {   
+            	//Mismatch, continue tree left.
+                node.left = put(node.left, key, value);
+                return node;
+            }
+            else
+            {   
+            	//Mismatch, continue tree right.
+                node.right = put(node.right, key, value);
+                return node;
+            }
+        }
+        //On last node to add.
+        else
+        {
+        	//New string ends here.
+            if (node == null)
+            {
+                return new TSTNode(c, value);
+            }
+            else
+            {   
+            	//Duplicate string, leave unchanged.
+                return node;
+            }
+            }
+        }
     //function to print tree
     public String toString()
     {

@@ -3,12 +3,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 import java.util.Map;
 
 public class app {
@@ -38,10 +44,14 @@ public class app {
 		case "1":
 			boolean isChoice1 = true;
 			VCBusGraph = new Graph("stops.txt", "transfers.txt", "stop_times.txt");
+			stop ST = new stop("stops.txt");
 			while(isChoice1) {
 				System.out.println("Enter the first stop's name");
 				String stopName = sc.next() + sc.nextLine();
-				
+				ArrayList<String> search = ST.getName(stopName);
+				if(search != null) {
+					
+				}
 			}
 			break;
 		case "2":
@@ -154,7 +164,6 @@ class Graph{
 	}
 	public int stopCount() {return stopCount;}
 	public ArrayList<Edge> edgeBeside(int stop){return aList[stop];}
-	
 	
 }
 
