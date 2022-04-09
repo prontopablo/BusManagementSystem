@@ -52,7 +52,7 @@ public class app {
 //graph class to represent bus network
 class Graph{
     private int stopCount;
-	private ArrayList<Edge>[] aList; //The graph is created using an adjacency list
+	private ArrayList<Edge>[] aList; //the graph is created using an adjacency list
 	private Map<Integer,Integer> stopIDMap; // tracks stop ID + array index
 	private Map<String,Integer> stopMap; //tracks stop name + stop ID
 	private Map<Integer,String> arrayMap;//tracks array index + name of stop
@@ -98,36 +98,50 @@ class Graph{
 		in = new BufferedReader(new FileReader(transfersTxt));//br for "transfers.txt"
 		in.readLine(); //skip first line
 		
+		//same process as with stops.txt 
 		while((currLine = in.readLine()) != null){
 			split = currLine.split(",");
+			//as per assignment specification, distance/weight of the edge changes.
 			if(Integer.parseInt(split[2]) == 0) {distance = 2.0;}
 			else {distance = Double.parseDouble(split[3])/100;}
 			startID = Integer.parseInt(split[0]);
 			endID = Integer.parseInt(split[1]);
 			startArrayIndex = stopIDMap.get(startID);
 			endArrayIndex = stopIDMap.get(endID);
+			//add new path/trip to adjacency list.
 			aList[startArrayIndex].add(new Edge(startArrayIndex,endArrayIndex,distance));
 			
 		}
 		in.close();
 		in = new BufferedReader(new FileReader(stopsTxt));//br for "stops.txt"
-		int CurrentID = 0;
+		int currentID = 0;
 		int previousID = -1;
-		int invalidTimes = 0; 
+		int invalidTimes = 0;//tracker for developer menu
 		while((currLine = in.readLine()) != null){
 			split = currLine.split(",");
 			try {
 				/*times must be in the format hh:mm:ss
 				this will reject invalid times such as 25:60:60 etc.
 				*/
-				LocalTime.parse(split[1]);
-				LocalTime.parse(split[2]);
+				LocalTime.parse(split[1].replaceAll("\\s", "0"));
+				LocalTime.parse(split[2].replaceAll("\\s", "0"));
 			}
 			catch (DateTimeParseException | NullPointerException e){
+				//an invalid time has been found and is therefore not added
 				invalidTimes++;
 				continue;
 			}
+			currentID = Integer.parseInt(split[0]);
+			endID = Integer.parseInt(split[3]);
+			if(previousID == currentID) {
+				startArrayIndex = stopIDMap.get(startID);
+				endArrayIndex = stopIDMap.get(endID);
+				aList[startArrayIndex].add(new Edge(startArrayIndex,endArrayIndex, 1.0));
+			}
+			startID = endID;
+			previousID = currentID;			
 		}
+		in.close();
 	}
 }
 
