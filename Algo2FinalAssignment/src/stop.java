@@ -9,54 +9,45 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
+//stop class to facilitate finding name and printing stop details (feature no. 2)
 public class stop{
-		TernarySearchTree T;
-		String file;
-		public stop(String filename) throws IOException{
-			T = new TernarySearchTree();
-			file = filename;
-			int ID = 2;
-			T.listOfAllNames.clear();
-			BufferedReader br = new BufferedReader(new FileReader(filename));
-			String currLine;
-			br.readLine();
-			while ((currLine = br.readLine()) != null)
+		TernarySearchTree T;//TST to find matching stop names
+		String file;//file to be read in
+	public stop(String filename) throws IOException{
+		int ID = 2; //as line 1 of input file is not relevant
+		T = new TernarySearchTree();
+		TernarySearchTree.listOfAllNames.clear();
+		file = filename;
+		BufferedReader br = new BufferedReader(new FileReader(filename));
+		String currLine;
+		br.readLine();//again skipping line 1 of input file
+		
+		while ((currLine = br.readLine()) != null)//while the current line isn't empty
 	        {
-				String[] properties = currLine.split(",");
-				String stopName = properties[2];
-				String[] temp = stopName.split(" ");
+				String[] properties = currLine.split(",");//properties[] keeps track of stop information
+				String stopName = properties[2];//stop name is before 3rd comma in input file
+				//we must format the stop name
+				String[] temp = stopName.split(" ");//separate into temp by white space so we can move keywords
 				List<String> t = Arrays.asList(temp);
-				LinkedList<String> tempLL = new LinkedList<>(t);
-				while(tempLL.get(0).equals("FLAGSTOP") || tempLL.get(0).equals("EB") || tempLL.get(0).equals("NB") || 
-						tempLL.get(0).equals("SB") ||  tempLL.get(0).equals("WB"))
+				LinkedList<String> LL = new LinkedList<>(t);//temporary linked list (LL)
+				//as requested in functionality no. 2, keywords (wb,nb etc.) are moved to the back of the
+				//string when searching to allow meaningful searches.
+				if(LL.get(0).equals("FLAGSTOP") || LL.get(0).equals("EB") || LL.get(0).equals("NB") || 
+						LL.get(0).equals("SB") ||  LL.get(0).equals("WB"))
 		            {
-		                String str = tempLL.remove(0);
-		                tempLL.add(str);
+		                String str = LL.remove(0);
+		                LL.add(str);
 		            }
-				String formattedName = tempLL.toString();
-				formattedName = formattedName.replaceAll("\\p{P}", "");
-				T.put(formattedName, ID);
+				String formattedName = LL.toString(); //formatted stop name
+				formattedName = formattedName.replaceAll("\\p{P}", ""); //remove any punctuation characters
+				T.put(formattedName, ID);//add the formatted stop name and stop ID to the TST.
 				ID++;
 	        }
 		}
-		public ArrayList<String> getName(String name) throws IOException{
-			int value = T.get(name);
-			String out;
-			ArrayList<String> values = new ArrayList<>();
-			if(value >= 0) {
-				for(int i = 0; i < TernarySearchTree.listOfAllNames.size();i++){
-					int line = TernarySearchTree.listOfAllNames.get(i);
-					Stream<String> lines = Files.lines(Paths.get(file));
-					out = lines.skip(line-1).findFirst().get();
-					String[] outProperties = out.split(",");
-					values.add(outProperties[2]);
-				}
-				T.listOfAllNames.clear();
-				return values;
-			}
-			else {return null;}
-		}
+
+		
 		public static void printStops(stop tst) throws IOException {
+			int numMatchingStops = 0;
 			System.out.println("Matching stops:");
 			for (int i = 0; i <= TernarySearchTree.listOfAllNames.size() -1; i++){
 				String out;
@@ -79,7 +70,9 @@ public class stop{
 				System.out.println("Zone:" + outProperties[6]);
 				System.out.println("URL:" + outProperties[7]);
 				System.out.println("Location Type:" + outProperties[8]);
-				System.out.println("Parent Station:" + outProperties[9]);
+				if(outProperties.length > 9) {
+				System.out.println("Parent Station:" + outProperties[9]);}
+				numMatchingStops++;
 			}
 		}
 }

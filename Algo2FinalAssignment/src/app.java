@@ -8,9 +8,13 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Map;
 
+//main application class
 public class app {
 	//driver code, takes user input and calls other methods.
 	public static void main(String[]args) throws IOException {
+		//this console interface enables selection between features
+		//and exiting the system, as requested by specification doc.
+		System.out.println("-------------------------------");
 		System.out.println("Vancouver Bus Management System");
 
 		boolean running = true;
@@ -23,10 +27,11 @@ public class app {
 		System.out.println("3 to search for trips by time");
 		System.out.println("-------------------------------");
 		
-		Graph VCBusGraph = null;
+		Graph VCBusGraph = null; //Graph of the Vancouver Bus System
 		Scanner sc = new Scanner(System.in);
 		String choice = sc.next();
 		switch(choice) {
+		//4. "option to exit the programme"
 		case "0":
 			System.out.println("Exiting...");
 			System.exit(0);
@@ -34,24 +39,32 @@ public class app {
 			break;
 		case "1":
 			break;
-
+		
+		//2. "Searching for a bus stop by full name or by the first few characters in the name, using a
+		//ternary search tree (TST), returning the full stop information for each stop matching the
+		//search criteria (which can be zero, one or more stops)"
 		case "2":
 			boolean running2 = true;
 			while(running2) {
-				System.out.print("Enter search for bus stop");
+				System.out.println("-------------------------------");
+				System.out.print("Enter search for bus stop (0 to return to menu)");
 				String search = sc.next(); 
 				search += sc.nextLine();
-				stop newTST = new stop("stops.txt");
-				int result = newTST.T.get(search);
-				if(result >= 0) {stop.printStops(newTST);}//result not returning >=0
-				else {System.out.println("No matching stops found, sorry");
-				System.out.println("-1");}
+				if(search.equals("0")) {main(args);}
+				stop newTST = new stop("stops.txt");//create stop object
+				int result = newTST.T.get(search); //TST to check user input
+				if(result >= 0) {stop.printStops(newTST);}//if something matches, print
+				//as requested in functionality no. 2, keywords (wb,nb etc.) are moved to the back of the
+				//string when searching to allow meaningful searches. However they are printed in their original format
+				else {System.out.println("No matching stops found, sorry");}//error checking
 			}
 			break;
+			
 		case "3":
 			break;
 		default:
-			System.out.println("Invalid input, please try again.");
+			System.out.println("-------------------------------");
+			System.out.println("Invalid input, please try again.");//error checking
 			break;
 		}
 	}
@@ -62,12 +75,14 @@ public class app {
 //graph class to represent bus network
 class Graph{
     private int stopCount;
-	private ArrayList<Edge>[] aList; //the graph is created using an adjacency list
+	private ArrayList<Edge>[] aList; //the graph is represented using an adjacency list
 	private Map<Integer,Integer> stopIDMap; // tracks stop ID + array index
 	private Map<String,Integer> stopMap; //tracks stop name + stop ID
 	private Map<Integer,String> arrayMap;//tracks array index + name of stop
 	
+	//receives file names as parameters
 	public Graph(String stopsTxt, String transfersTxt, String stopTimesTxt) throws IOException {
+		//corresponding hash maps.
 		stopIDMap = new HashMap<Integer,Integer>();
 		stopMap = new HashMap<String,Integer>();
 		arrayMap = new HashMap<Integer,String>();
@@ -84,6 +99,8 @@ class Graph{
 		int endID = 0;
 		int startArrayIndex = 0;
 		int endArrayIndex = 0;
+		
+		//read each of the 3 files
 		
 		in.readLine();//skip first line
 		while((currLine = in.readLine()) != null) {
@@ -137,8 +154,8 @@ class Graph{
 			}
 			catch (DateTimeParseException | NullPointerException e){
 				//an invalid time has been found and is therefore not added
-				invalidTimes++;
-				continue;
+				invalidTimes++;//tracker for developer
+				continue;//skip this time
 			}
 			currentID = Integer.parseInt(split[0]);
 			endID = Integer.parseInt(split[3]);
