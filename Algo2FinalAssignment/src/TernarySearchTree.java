@@ -91,7 +91,22 @@ class TernarySearchTree
                 delete(r.middle, word, ptr + 1);
         }        
     }
- 
+    private void traverse(TSTNode node, String string)
+    {
+        if (node != null)
+        {
+            traverse(node.left, string);
+            string = string + node.data;
+            if (node.value != null)
+            {   
+            	//If last node then add Line ID to allNames ArrayList.
+                listOfAllNames.add(node.value);
+            }
+            traverse(node.middle, string);
+            string = string.substring(0, string.length() - 1);
+            traverse(node.right, string);
+        }
+    }
     // function to search
     public boolean search(String word)
     {
@@ -257,21 +272,5 @@ class TernarySearchTree
             }
         }
     }
-    // function to traverse tree
-    private void traverse(TSTNode r, String str)
-    {
-        if (r != null)
-        {
-            traverse(r.left, str);
- 
-            str = str + r.data;
-            if (r.isEnd)
-                al.add(str);
- 
-            traverse(r.middle, str);
-            str = str.substring(0, str.length() - 1);
- 
-            traverse(r.right, str);
-        }
-    }
 }
+ 

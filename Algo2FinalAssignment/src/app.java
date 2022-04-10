@@ -1,20 +1,11 @@
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 import java.util.Map;
 
 public class app {
@@ -42,19 +33,19 @@ public class app {
 			running = false;
 			break;
 		case "1":
-			boolean isChoice1 = true;
-			VCBusGraph = new Graph("stops.txt", "transfers.txt", "stop_times.txt");
-			stop ST = new stop("stops.txt");
-			while(isChoice1) {
-				System.out.println("Enter the first stop's name");
-				String stopName = sc.next() + sc.nextLine();
-				ArrayList<String> search = ST.getName(stopName);
-				if(search != null) {
-					
-				}
-			}
 			break;
+
 		case "2":
+			boolean running2 = true;
+			while(running2) {
+				System.out.println("Enter search for bus stop");
+				String search = sc.next(); 
+				search += sc.nextLine();
+				stop newTST = new stop("stops.txt");
+				int result = newTST.T.get(search);
+				if(result >= 0) {stop.printStops(newTST);}
+				else {System.out.println("No matching stops found, sorry");}
+			}
 			break;
 		case "3":
 			break;
@@ -64,7 +55,7 @@ public class app {
 		}
 	}
 	}
-
+	
 	}
 
 //graph class to represent bus network
@@ -74,7 +65,6 @@ class Graph{
 	private Map<Integer,Integer> stopIDMap; // tracks stop ID + array index
 	private Map<String,Integer> stopMap; //tracks stop name + stop ID
 	private Map<Integer,String> arrayMap;//tracks array index + name of stop
-	//dijkstra dij;
 	
 	public Graph(String stopsTxt, String transfersTxt, String stopTimesTxt) throws IOException {
 		stopIDMap = new HashMap<Integer,Integer>();
