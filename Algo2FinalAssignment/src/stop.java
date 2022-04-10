@@ -27,13 +27,14 @@ public class stop{
 				String[] temp = stopName.split(" ");
 				List<String> t = Arrays.asList(temp);
 				LinkedList<String> tempLL = new LinkedList<>(t);
-				if(tempLL.get(0).equals("FLAGSTOP") || tempLL.get(0).equals("EB") || tempLL.get(0).equals("NB") || 
+				while(tempLL.get(0).equals("FLAGSTOP") || tempLL.get(0).equals("EB") || tempLL.get(0).equals("NB") || 
 						tempLL.get(0).equals("SB") ||  tempLL.get(0).equals("WB"))
 		            {
 		                String str = tempLL.remove(0);
 		                tempLL.add(str);
 		            }
 				String formattedName = tempLL.toString();
+				formattedName = formattedName.replaceAll("\\p{P}", "");
 				T.put(formattedName, ID);
 				ID++;
 	        }
@@ -43,8 +44,8 @@ public class stop{
 			String out;
 			ArrayList<String> values = new ArrayList<>();
 			if(value >= 0) {
-				for(int i = 0; i < T.listOfAllNames.size();i++){
-					int line = T.listOfAllNames.get(i);
+				for(int i = 0; i < TernarySearchTree.listOfAllNames.size();i++){
+					int line = TernarySearchTree.listOfAllNames.get(i);
 					Stream<String> lines = Files.lines(Paths.get(file));
 					out = lines.skip(line-1).findFirst().get();
 					String[] outProperties = out.split(",");

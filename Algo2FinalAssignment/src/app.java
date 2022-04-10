@@ -38,13 +38,14 @@ public class app {
 		case "2":
 			boolean running2 = true;
 			while(running2) {
-				System.out.println("Enter search for bus stop");
+				System.out.print("Enter search for bus stop");
 				String search = sc.next(); 
 				search += sc.nextLine();
 				stop newTST = new stop("stops.txt");
 				int result = newTST.T.get(search);
-				if(result >= 0) {stop.printStops(newTST);}
-				else {System.out.println("No matching stops found, sorry");}
+				if(result >= 0) {stop.printStops(newTST);}//result not returning >=0
+				else {System.out.println("No matching stops found, sorry");
+				System.out.println("-1");}
 			}
 			break;
 		case "3":
