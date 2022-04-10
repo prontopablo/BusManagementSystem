@@ -44,17 +44,18 @@ public class stop{
 				ID++;
 	        }
 		}
-
-		
+	
+		//called by functionality no.2 from app.java. Prints matching stop information
 		public static void printStops(stop tst) throws IOException {
-			int numMatchingStops = 0;
-			System.out.println("Matching stops:");
+			int numMatchingStops = 0;//developer stat
+			System.out.println("Stops that match your search:");
+			//Loops through stop names, printing matching stop info.
 			for (int i = 0; i <= TernarySearchTree.listOfAllNames.size() -1; i++){
-				String out;
+				String out;//output
 				int currentLine = TernarySearchTree.listOfAllNames.get(i);
 				Stream<String> lines = Files.lines(Paths.get(tst.file));
 				out = lines.skip(currentLine - 1).findFirst().get();
-				String [] outProperties = out.split(",");
+				String [] outProperties = out.split(","); //properties split by commas
 				for(int j = 0; j < outProperties.length;j++) {
 					if(outProperties[j].equals(" ")) {
 						outProperties[j] = "null";
@@ -70,9 +71,10 @@ public class stop{
 				System.out.println("Zone:" + outProperties[6]);
 				System.out.println("URL:" + outProperties[7]);
 				System.out.println("Location Type:" + outProperties[8]);
-				if(outProperties.length > 9) {
+				//was getting out of bounds error - some stops don't have parent station listed
+				if(outProperties.length > 9) { 
 				System.out.println("Parent Station:" + outProperties[9]);}
-				numMatchingStops++;
+				numMatchingStops++;//developer stat
 			}
 		}
 }

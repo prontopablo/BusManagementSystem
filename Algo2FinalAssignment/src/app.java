@@ -22,9 +22,9 @@ public class app {
 		System.out.println("-------------------------------");
 		System.out.println("Enter:");
 		System.out.println("0 to exit the program");
-		System.out.println("1 to find the shortest path between 2 stops");
+		System.out.println("1 to find the shortest path between 2 stops (n/a)");
 		System.out.println("2 to search for a bus stop");
-		System.out.println("3 to search for trips by time");
+		System.out.println("3 to search for trips by time (n/a)");
 		System.out.println("-------------------------------");
 		
 		Graph VCBusGraph = null; //Graph of the Vancouver Bus System
@@ -37,6 +37,8 @@ public class app {
 			System.exit(0);
 			running = false;
 			break;
+		
+		//todo
 		case "1":
 			break;
 		
@@ -59,9 +61,11 @@ public class app {
 				else {System.out.println("No matching stops found, sorry");}//error checking
 			}
 			break;
-			
+		
+		//todo	
 		case "3":
 			break;
+		
 		default:
 			System.out.println("-------------------------------");
 			System.out.println("Invalid input, please try again.");//error checking
@@ -170,8 +174,5 @@ class Graph{
 		}
 		in.close();
 	}
-	public int stopCount() {return stopCount;}
-	public ArrayList<Edge> edgeBeside(int stop){return aList[stop];}
-	
 }
 
